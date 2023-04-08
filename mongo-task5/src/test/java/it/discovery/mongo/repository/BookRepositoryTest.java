@@ -1,7 +1,7 @@
-package it.discovery.nosql.repository;
+package it.discovery.mongo.repository;
 
+import it.discovery.mongo.BaseMongoTest;
 import it.discovery.mongo.model.*;
-import it.discovery.mongo.repository.BookRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -9,7 +9,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class BookRepositoryTest {
+public class BookRepositoryTest extends BaseMongoTest {
 
     @Autowired
     BookRepository bookRepository;
@@ -35,11 +35,23 @@ public class BookRepositoryTest {
         review.setComment("good");
         review.setRate(10);
         book2.addReview(review);
-        //bookRepository.saveAll(List.of(book1, book2));
+        bookRepository.saveAll(List.of(book1, book2));
 
         List<Book> books = bookRepository.findWithReviews();
         assertEquals(1, books.size());
         assertEquals("Hibernate", books.get(0).getTranslations().get(0).name());
+    }
+
+    @Test
+    void findByNameAndLocale_returnsSingleBook() {
+        Book book1 = new Book();
+        book1.setTranslations(List.of(new Translation("JPA", "en")));
+
+        bookRepository.save(book1);
+
+        List<Book> books = bookRepository.findByName("JPA", "en");
+        assertEquals(1, books.size());
+        assertEquals("JPA", books.get(0).getTranslations().get(0).name());
     }
 
 }

@@ -2,6 +2,7 @@ package it.discovery.mongo.repository;
 
 import it.discovery.mongo.model.Book;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 
 import java.util.List;
 
@@ -12,10 +13,11 @@ public interface BookRepository extends MongoRepository<Book, String> {
      * specified locale
      *
      * @param name
-     * @param locale
+     * @param language
      * @return
      */
-//    List<Book> findByName(String name, String locale);
+    @Query("{ 'translations.name': ?0, 'translations.language': ?1}")
+    List<Book> findByName(String name, String language);
 
     /**
      * Returns all the books with exact name irregardless of locale
@@ -23,14 +25,15 @@ public interface BookRepository extends MongoRepository<Book, String> {
      * @param name
      * @return
      */
-//    List<Book> findByName(String name);
+    List<Book> findByTranslations_Name(String name);
 
     /**
      * Returns all the books that has at least one review
      *
      * @return
      */
-//    List<Book> findWithReviews();
+    @Query("{reviews: {$exists: true, $ne: [], $ne: null}}")
+    List<Book> findWithReviews();
 
     /**
      * Returns all the books where number of pages is greater than pages parameter
