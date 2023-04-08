@@ -16,9 +16,9 @@ public class Book extends BaseEntity {
 
     private Complexity complexity;
 
-    private String author;
+    private String authorId;
 
-    private String publisher;
+    private String publisherId;
 
     /**
      * Publishing year
