@@ -14,6 +14,8 @@ import java.util.List;
 @Setter
 @Document(collection = "books")
 public class Book extends BaseEntity {
+    private final static int MAX_HITS = 100;
+
     private List<Translation> translations;
 
     private Complexity complexity;
@@ -46,5 +48,16 @@ public class Book extends BaseEntity {
             reviews = new ArrayList<>();
         }
         reviews.add(review);
+    }
+
+    public void addHit(Hit hit) {
+        if (recentHits == null) {
+            recentHits = new ArrayList<>();
+        }
+        if (recentHits.size() > MAX_HITS) {
+            //FIXME what is better ArrayList or LinkedList
+            recentHits.remove(0);
+        }
+        recentHits.add(hit);
     }
 }
