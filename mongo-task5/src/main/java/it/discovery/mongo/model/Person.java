@@ -3,22 +3,16 @@ package it.discovery.mongo.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 /**
- * Person who can write books, for example
+ * Abstract person (writer or consumer).
+ * Pattern polymorphic
  *
  * @author admin
  */
 @Getter
 @Setter
-public class Person extends BaseEntity {
+public abstract class Person extends BaseEntity {
     private String name;
-
-    /**
-     * Books that person has written
-     */
-    private List<Book> books;
 
     private Contact contact;
 }

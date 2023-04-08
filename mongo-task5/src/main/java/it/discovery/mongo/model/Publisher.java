@@ -13,7 +13,7 @@ import java.util.List;
 public class Publisher extends BaseEntity {
     private String name;
 
-    private List<Book> books;
+    private List<BookInfo> books;
 
     private Contact contact;
 }

@@ -12,17 +12,13 @@ import java.util.List;
 @Getter
 @Setter
 public class Book extends BaseEntity {
-    private String nameEn;
-
-    private String nameRu;
-
-    private String nameUk;
+    private List<Translation> translations;
 
     private Complexity complexity;
 
-    private Person author;
+    private String author;
 
-    private Publisher publisher;
+    private String publisher;
 
     /**
      * Publishing year
@@ -34,7 +30,12 @@ public class Book extends BaseEntity {
      */
     private int pages;
 
+    /**
+     * Pattern Embedding
+     */
     private List<Review> reviews;
+
+    private List<Hit> recentHits;
 
     private String contents;
 
@@ -43,6 +44,5 @@ public class Book extends BaseEntity {
             reviews = new ArrayList<>();
         }
         reviews.add(review);
-        review.setBook(this);
     }
 }

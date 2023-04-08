@@ -5,13 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Customer extends BaseEntity {
+public class Customer extends Person {
 
     private String login;
 
     private String password;
 
-    private String name;
-
-    private Contact contact;
 }

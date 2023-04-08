@@ -18,7 +18,7 @@ public class Hit extends BaseEntity {
      */
     private String origin;
 
-    private Book book;
+    private String bookId;
 
     private List<HitAttribute> attributes;
 }

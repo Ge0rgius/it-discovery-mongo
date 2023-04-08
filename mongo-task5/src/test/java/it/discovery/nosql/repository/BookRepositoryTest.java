@@ -1,9 +1,9 @@
 package it.discovery.nosql.repository;
 
 import it.discovery.mongo.model.Book;
-import it.discovery.mongo.model.Person;
 import it.discovery.mongo.model.Publisher;
 import it.discovery.mongo.model.Review;
+import it.discovery.mongo.model.Writer;
 import it.discovery.mongo.repository.BookRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class BookRepositoryTest {
 
     @Test
     void findWithReviews_returnsSingleBook() {
-        Person author = new Person();
+        Writer author = new Writer();
         author.setName("Gavin King");
         Publisher publisher = new Publisher();
         publisher.setName("Packt");
