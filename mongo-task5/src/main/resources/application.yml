@@ -1,3 +1,4 @@
 spring:
   data:
-    mongodb:      database: 
+    mongodb:
+      database: warehouse

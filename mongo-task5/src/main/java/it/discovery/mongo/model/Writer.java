@@ -1,7 +1,10 @@
 package it.discovery.mongo.model;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.List;
 
+@Document(collection = "persons")
 public class Writer extends Person {
     /**
      * Books that person has written
