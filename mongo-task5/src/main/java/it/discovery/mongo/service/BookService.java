@@ -1,8 +1,10 @@
 package it.discovery.mongo.service;
 
 import it.discovery.mongo.model.Book;
-import it.discovery.mongo.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,14 +13,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookService {
 
-    private final BookRepository bookRepository;
+    private final MongoOperations mongoOperations;
 
     public List<Book> findByName(String name) {
-        return bookRepository.findByTranslations_Name(name);
+        return mongoOperations.find(new Query(
+                Criteria.where("translations.name").is(name)), Book.class);
     }
 
     public void saveBook(Book book) {
-        bookRepository.save(book);
+        mongoOperations.save(book);
     }
 
     /**

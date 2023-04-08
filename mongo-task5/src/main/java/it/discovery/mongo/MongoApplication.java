@@ -1,11 +1,11 @@
 package it.discovery.mongo;
 
-import it.discovery.mongo.repository.BookRepository;
 import it.discovery.mongo.service.BookService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
+import org.springframework.data.mongodb.core.MongoOperations;
 
 @SpringBootApplication
 @EnableMongoAuditing
@@ -16,7 +16,7 @@ public class MongoApplication {
     }
 
     @Bean
-    BookService bookService(BookRepository bookRepository) {
-        return new BookService(bookRepository);
+    BookService bookService(MongoOperations mongoOperations) {
+        return new BookService(mongoOperations);
     }
 }
