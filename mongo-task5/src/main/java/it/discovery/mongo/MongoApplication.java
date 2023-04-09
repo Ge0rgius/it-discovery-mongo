@@ -12,8 +12,4 @@ public class MongoApplication {
         SpringApplication.run(MongoApplication.class, args);
     }
 
-//    @Bean
-//    BookService bookService(MongoOperations mongoOperations) {
-//        return new BookService(mongoOperations);
-//    }
 }
