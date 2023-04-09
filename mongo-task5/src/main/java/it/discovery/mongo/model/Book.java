@@ -1,5 +1,6 @@
 package it.discovery.mongo.model;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -21,6 +22,7 @@ public class Book extends BaseEntity {
 
     private Complexity complexity;
 
+    @NotEmpty
     private String authorId;
 
     //private String publisherId;

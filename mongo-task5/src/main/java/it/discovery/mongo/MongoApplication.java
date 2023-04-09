@@ -13,7 +13,9 @@ import org.springframework.data.mongodb.MongoTransactionManager;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.index.Index;
+import org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventListener;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @SpringBootApplication
 @EnableMongoAuditing
@@ -45,6 +47,11 @@ public class MongoApplication {
     @Bean
     BinaryService binaryService(GridFsTemplate gridFsTemplate) {
         return new BinaryService(gridFsTemplate);
+    }
+
+    @Bean
+    ValidatingMongoEventListener listener(LocalValidatorFactoryBean bean) {
+        return new ValidatingMongoEventListener(bean);
     }
 
 }
