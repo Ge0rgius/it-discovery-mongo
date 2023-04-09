@@ -1,15 +1,17 @@
 package it.discovery.mongo;
 
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-//@DataMongoTest
-//@ContextConfiguration(classes = MongoApplication.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+//TODO fix issue with TestContainer not clearing database when using @SpringBootTest
+@DataMongoTest
+@ContextConfiguration(classes = MongoApplication.class)
+//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @Testcontainers
 public abstract class BaseMongoTest {
 

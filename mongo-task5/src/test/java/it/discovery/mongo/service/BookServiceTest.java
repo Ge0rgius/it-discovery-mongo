@@ -34,6 +34,7 @@ public class BookServiceTest extends BaseMongoTest {
     }
 
     @Test
+    //TODO use MongoDBContainer for this test
     void saveHit_hitAddedToRecentHits() {
         Book book = new Book();
         book.setTranslations(List.of(new Translation("JPA", "en")));
