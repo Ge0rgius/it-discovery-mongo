@@ -2,6 +2,7 @@ package it.discovery.mongo.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
@@ -22,7 +23,10 @@ public class Book extends BaseEntity {
 
     private String authorId;
 
-    private String publisherId;
+    //private String publisherId;
+
+    @DBRef(lazy = true)
+    private Publisher publisher;
 
     /**
      * Publishing year

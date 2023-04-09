@@ -3,6 +3,7 @@ package it.discovery.mongo.service;
 import it.discovery.mongo.BaseMongoTest;
 import it.discovery.mongo.model.Book;
 import it.discovery.mongo.model.Hit;
+import it.discovery.mongo.model.Publisher;
 import it.discovery.mongo.model.Translation;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +25,20 @@ public class BookServiceTest extends BaseMongoTest {
 
     @Test
     void saveBook_findByName_success() {
+        Publisher publisher = new Publisher();
+        publisher.setName("Apres");
+        mongoOperations.save(publisher);
+
         Book book = new Book();
         book.setTranslations(List.of(new Translation("JPA", "en")));
+        book.setPublisher(publisher);
         bookService.saveBook(book);
 
         List<Book> books = bookService.findByName("JPA");
         assertEquals(1, books.size());
-        assertEquals("JPA", books.get(0).getTranslations().get(0).name());
+        Book book1 = books.get(0);
+        assertEquals("JPA", book1.getTranslations().get(0).name());
+        assertEquals(publisher.getName(), book1.getPublisher().getName());
     }
 
     @Test

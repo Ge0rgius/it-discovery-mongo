@@ -4,6 +4,7 @@ import it.discovery.mongo.BaseMongoTest;
 import it.discovery.mongo.model.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoOperations;
 
 import java.util.List;
 
@@ -14,6 +15,9 @@ public class BookRepositoryTest extends BaseMongoTest {
     @Autowired
     BookRepository bookRepository;
 
+    @Autowired
+    MongoOperations mongoOperations;
+
     @Test
     void findWithReviews_returnsSingleBook() {
         Writer author = new Writer();
@@ -21,15 +25,17 @@ public class BookRepositoryTest extends BaseMongoTest {
         Publisher publisher = new Publisher();
         publisher.setName("Packt");
 
+        mongoOperations.save(publisher);
+
         Book book1 = new Book();
         book1.setTranslations(List.of(new Translation("JPA", "en")));
         book1.setAuthorId(author.getId());
-        book1.setPublisherId(publisher.getId());
+        book1.setPublisher(publisher);
 
         Book book2 = new Book();
         book2.setTranslations(List.of(new Translation("Hibernate", "en")));
         book2.setAuthorId(author.getId());
-        book2.setPublisherId(publisher.getId());
+        book2.setPublisher(publisher);
 
         Review review = new Review();
         review.setComment("good");
@@ -45,13 +51,13 @@ public class BookRepositoryTest extends BaseMongoTest {
     @Test
     void findByNameAndLocale_returnsSingleBook() {
         Book book1 = new Book();
-        book1.setTranslations(List.of(new Translation("JPA", "en")));
+        book1.setTranslations(List.of(new Translation("Mongo", "en")));
 
         bookRepository.save(book1);
 
-        List<Book> books = bookRepository.findByName("JPA", "en");
+        List<Book> books = bookRepository.findByName("Mongo", "en");
         assertEquals(1, books.size());
-        assertEquals("JPA", books.get(0).getTranslations().get(0).name());
+        assertEquals("Mongo", books.get(0).getTranslations().get(0).name());
     }
 
 }
