@@ -3,6 +3,7 @@ package it.discovery.mongo;
 import it.discovery.mongo.config.AuditLogCallback;
 import it.discovery.mongo.service.BinaryService;
 import it.discovery.mongo.service.BookService;
+import jakarta.validation.Validator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -47,6 +48,11 @@ public class MongoApplication {
     @Bean
     BinaryService binaryService(GridFsTemplate gridFsTemplate) {
         return new BinaryService(gridFsTemplate);
+    }
+
+    @Bean
+    Validator validator() {
+        return new LocalValidatorFactoryBean();
     }
 
     @Bean
