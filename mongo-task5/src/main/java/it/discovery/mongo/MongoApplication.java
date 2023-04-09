@@ -1,6 +1,7 @@
 package it.discovery.mongo;
 
 import it.discovery.mongo.config.AuditLogCallback;
+import it.discovery.mongo.service.BinaryService;
 import it.discovery.mongo.service.BookService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,6 +13,7 @@ import org.springframework.data.mongodb.MongoTransactionManager;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.index.Index;
+import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 
 @SpringBootApplication
 @EnableMongoAuditing
@@ -22,8 +24,8 @@ public class MongoApplication {
     }
 
     @Bean
-    BookService bookService(MongoOperations mongoOperations) {
-        return new BookService(mongoOperations);
+    BookService bookService(MongoOperations mongoOperations, BinaryService binaryService) {
+        return new BookService(mongoOperations, binaryService);
     }
 
     @Bean
@@ -38,6 +40,11 @@ public class MongoApplication {
                 .createIndex(new Index()//.background()
                         .on("translations.$**", Sort.Direction.ASC).getIndexKeys());
         return new MongoTransactionManager(dbFactory);
+    }
+
+    @Bean
+    BinaryService binaryService(GridFsTemplate gridFsTemplate) {
+        return new BinaryService(gridFsTemplate);
     }
 
 }

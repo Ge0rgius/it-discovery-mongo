@@ -45,7 +45,7 @@ public class Book extends BaseEntity {
 
     private List<Hit> recentHits;
 
-    private String contents;
+    private String contentId;
 
     public void addReview(Review review) {
         if (reviews == null) {

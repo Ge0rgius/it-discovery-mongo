@@ -11,6 +11,8 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,7 +26,7 @@ public class BookServiceTest extends BaseMongoTest {
     MongoOperations mongoOperations;
 
     @Test
-    void saveBook_findByName_success() {
+    void saveBook_findByName_success() throws IOException {
         Publisher publisher = new Publisher();
         publisher.setName("Apres");
         mongoOperations.save(publisher);
@@ -32,7 +34,7 @@ public class BookServiceTest extends BaseMongoTest {
         Book book = new Book();
         book.setTranslations(List.of(new Translation("JPA", "en")));
         book.setPublisher(publisher);
-        bookService.saveBook(book);
+        bookService.saveBook(book, Paths.get("src/test/resources/sample.txt"));
 
         List<Book> books = bookService.findByName("JPA");
         assertEquals(1, books.size());
@@ -42,11 +44,11 @@ public class BookServiceTest extends BaseMongoTest {
     }
 
     @Test
-    //TODO use MongoDBContainer for this test
-    void saveHit_hitAddedToRecentHits() {
+        //TODO use MongoDBContainer for this test
+    void saveHit_hitAddedToRecentHits() throws IOException {
         Book book = new Book();
         book.setTranslations(List.of(new Translation("JPA", "en")));
-        bookService.saveBook(book);
+        bookService.saveBook(book, Paths.get("src/test/resources/sample.txt"));
 
         Hit hit = new Hit();
         hit.setBookId(book.getId());
@@ -62,16 +64,16 @@ public class BookServiceTest extends BaseMongoTest {
     }
 
     @Test
-    void findTotalPages_success() {
+    void findTotalPages_success() throws IOException {
         Book book = new Book();
         book.setTranslations(List.of(new Translation("JPA", "en")));
         book.setPages(100);
-        bookService.saveBook(book);
+        bookService.saveBook(book, Paths.get("src/test/resources/sample.txt"));
 
         Book book1 = new Book();
         book1.setTranslations(List.of(new Translation("Mongo", "en")));
         book1.setPages(200);
-        bookService.saveBook(book1);
+        bookService.saveBook(book1, Paths.get("src/test/resources/sample.txt"));
         int totalPages = bookService.findTotalPages();
         assertEquals(300, totalPages);
     }
