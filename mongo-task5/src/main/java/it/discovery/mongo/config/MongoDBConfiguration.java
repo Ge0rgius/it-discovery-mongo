@@ -17,8 +17,7 @@ public class MongoDBConfiguration extends AbstractMongoClientConfiguration {
                                                     MongoOperations mongoOperations) {
         mongoOperations.getCollection("books")
                 .createIndex(new Index()//.background()
-                        .on("translations.name", Sort.Direction.ASC)
-                        .on("translations.language", Sort.Direction.ASC).getIndexKeys());
+                        .on("translations.$**", Sort.Direction.ASC).getIndexKeys());
         return new MongoTransactionManager(dbFactory);
     }
 
