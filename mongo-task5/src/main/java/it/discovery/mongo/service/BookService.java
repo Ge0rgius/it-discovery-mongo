@@ -3,13 +3,19 @@ package it.discovery.mongo.service;
 import it.discovery.mongo.model.Book;
 import it.discovery.mongo.model.Hit;
 import lombok.RequiredArgsConstructor;
+import org.bson.Document;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.aggregation.GroupOperation;
+import org.springframework.data.mongodb.core.aggregation.ProjectionOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -44,7 +50,12 @@ public class BookService {
      * @return
      */
     public int findTotalPages() {
-        //TODO implement
-        return 0;
+        GroupOperation groupOperation = Aggregation.group().sum("pages").as("totalPages");
+        ProjectionOperation projectionOperation = Aggregation.project("totalPages").andExclude("_id");
+        Aggregation aggregation = Aggregation.newAggregation(groupOperation, projectionOperation);
+
+        AggregationResults<Document> books = mongoOperations.aggregate(aggregation, "books", Document.class);
+        Document doc = books.getUniqueMappedResult();
+        return Optional.ofNullable(doc.getInteger("totalPages")).orElse(0);
     }
 }

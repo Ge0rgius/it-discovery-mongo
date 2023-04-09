@@ -4,7 +4,7 @@ import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
@@ -16,7 +16,8 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 public abstract class BaseMongoTest {
 
     @Container
-    static GenericContainer mongo = new GenericContainer("mongo:6").withExposedPorts(27017);
+    //static GenericContainer mongo = new GenericContainer("mongo:6").withExposedPorts(27017);
+    static MongoDBContainer mongo = new MongoDBContainer("mongo:6").withExposedPorts(27017);
 
     @DynamicPropertySource
     static void mongoProperties(DynamicPropertyRegistry registry) {

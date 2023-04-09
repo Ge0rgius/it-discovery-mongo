@@ -53,4 +53,18 @@ public class BookServiceTest extends BaseMongoTest {
         assertTrue(book2.getRecentHits().stream().anyMatch(current -> current.getId().equals(hit.getId())));
     }
 
+    @Test
+    void findTotalPages_success() {
+        Book book = new Book();
+        book.setTranslations(List.of(new Translation("JPA", "en")));
+        book.setPages(100);
+        bookService.saveBook(book);
+
+        Book book1 = new Book();
+        book1.setTranslations(List.of(new Translation("Mongo", "en")));
+        book1.setPages(200);
+        bookService.saveBook(book1);
+        int totalPages = bookService.findTotalPages();
+        assertEquals(300, totalPages);
+    }
 }
